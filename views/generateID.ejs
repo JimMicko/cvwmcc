@@ -1,0 +1,1103 @@
+<!-- generateID.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generate ID</title>
+    <link rel="shortcut icon" href="/public/img/CVWMCC.png" type="image/x-icon" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/eras-md-bt" rel="stylesheet" />
+    <style>
+      .shrink-text {
+        white-space: nowrap; /* Prevent text from wrapping to the next line */
+        overflow: hidden; /* Hide overflowing text */
+        display: inline-block; /* Make sure it stays on one line */
+      }
+      /* Width of the scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #198754; /* Color of the scrollbar handle */
+        border-bottom-right-radius: 6px; /* Rounded corners for the handle */
+        border-top-right-radius: 5px; /* Rounded corners for the handle */
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #dc3545; /* Color of the scrollbar handle on hover */
+      }
+    </style>
+  </head>
+  <body style="background-color: #c3c3c3">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        height: 60px;
+        background-color: black;
+        padding: 0 20px;
+        position: relative;
+      "
+    >
+      <div style="display: flex; align-items: center; height: 100%">
+        <img
+          src="/img/CVWMCC.png"
+          alt=""
+          style="height: 50px; width: 50px; margin-right: 10px"
+        />
+        <h2
+          class="m-0"
+          style="
+            font-family: 'Eras Md BT', sans-serif;
+            font-weight: bold;
+            color: #ffbf00;
+          "
+        >
+          Central Visayas Waste Management Complex Corporation
+        </h2>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 500px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          font-size: 20px;
+        "
+      >
+        <div id="safety_man_hour"></div>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 20px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        "
+      >
+        <div class="header_date">
+          <div id="exactDate"></div>
+        </div>
+        <div class="header_time" style="font-size: 40px">
+          <div id="exactTime"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a href="/home" style="text-decoration: none; position: absolute; margin: 10px;">
+          <button type="button" class="form-control bg-danger text-white" style="max-width: fit-content !important;">
+              Back
+          </button>
+      </a>
+  </div>
+    <div class="container">
+      <h1>Generate ID</h1>
+
+      <% if (successMessage) { %>
+      <p style="color: green"><%= successMessage %></p>
+      <% } %> <% if (type_of_employee !== 'TEMPORARY') { %>
+      <div style="display: flex; gap: 100px;">
+        <div style="display: flex; flex-direction: column;">
+          <div id="idContainers" style="display: none; width: 100%">
+            <div id="idCardContainer"
+              style="
+                position: relative;
+                height: 8.6cm;
+                width: 5.4cm;
+                background-color: white;
+              "
+            >
+              <div
+                class="header"
+                style="
+                  height: 1.75cm;
+                  background-color: gray;
+                  padding: 0.25cm 0.25cm 0.5cm 0.25cm;
+                "
+              >
+                <img src="/img/CVWMCC3.png" alt="" style="height: 1cm; width: 1cm;" />
+                <img
+                  src="/img/cvwmcc2.png"
+                  alt=""
+                  style="height: 1.3cm; width: 3.75cm"
+                />
+              </div>
+              <div>
+                <p
+                  class="m-1 shrink-text"
+                  style="font-size: 10px; font-weight: bold"
+                >
+                  ID No:<br /><%= employee_id %>
+                </p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  height: 3cm;
+                  width: 3cm;
+                  border: 5px solid gray;
+                  left: 1.2cm;
+                  top: 2cm;
+                  z-index: 2;
+                  background-color: white;
+                "
+              >
+                <div style="width: 100%; height: 100%">
+                  <% if (profile_picture) { %>
+                  <img
+                    src="data:image/jpeg;base64,<%= profile_picture.toString('base64') %>"
+                    alt="Uploaded Picture"
+                    style="height: 100%; width: 100%"
+                  />
+                  <% } %>
+                </div>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 5cm;
+                  width: 100%;
+                  height: 0.75cm;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: bold;
+                "
+              >
+                <p class="m-1 shrink-text"><%= id_name %></p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 5.75cm;
+                  width: 100%;
+                  max-width: 100%;
+                  height: 0.75cm;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: bold;
+                  background-color: gray;
+                  color: white;
+                "
+              >
+                <p class="m-1 shrink-text" style="font-style: italic">
+                  <%= designation %>
+                </p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 6.7cm;
+                  left: 1.8cm;
+                  width: 1.8cm;
+                  height: 1.8cm;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border: 1px solid black;
+                "
+              >
+                <img
+                  src="<%= qrCodeDataURL %>"
+                  alt="QR Code"
+                  style="width: 100%; height: 100%"
+                />
+              </div>
+            </div>
+            <div id="idCardContainer2" class="d-flex justify-content-center">
+              <div
+                style="
+                  position: relative;
+                  padding: 0.2cm;
+                  height: 8.6cm;
+                  width: 5.4cm;
+                  background-color: gray;
+                "
+              >
+                <div
+                  style="
+                    height: 4cm;
+                    width: 100%;
+                    padding: 0.1cm;
+                    background-color: white;
+                  "
+                >
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 50% 50%;
+                      font-size: 8px;
+                      font-weight: bold;
+                      gap: 0.1cm;
+                    "
+                  >
+                    <div style="display: flex; flex-direction: column">
+                      <div>SSS: <%= sss_no %></div>
+                      <div>HDMF: <%= pag_ibig_no %></div>
+                    </div>
+                    <div style="display: flex; flex-direction: column">
+                      <div>TIN: <%= tin_no %></div>
+                      <div>PHIC: <%= philhealth_no %></div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 30% 70%;
+                      font-size: 8px;
+                      font-weight: bold;
+                      gap: 0.1cm;
+                    "
+                  >
+                    <div>Birthdate:</div>
+                    <div><%= birthday %></div>
+                  </div>
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 30% 70%;
+                      font-size: 8px;
+                      font-weight: bold;
+                      gap: 0.1cm;
+                    "
+                  >
+                    <div>Contact No:</div>
+                    <div><%= contact_number %></div>
+                  </div>
+                  <div
+                    style="text-align: center; font-size: 8px; font-weight: bold"
+                  >
+                    <div>
+                      <i>Home Address:</i>
+                    </div>
+                    <div style="font-size: 7px"><%= address %></div>
+                    <div style="font-size: 7px"><%= address2 %></div>
+                    <div>
+                      <i>In case of Emergency please notify:</i>
+                    </div>
+                    <div><%= contact_person %></div>
+                    <div style="font-size: 7px"><%= contact_person_address %></div>
+                    <div style="font-size: 7px"><%= contact_person_address2 %></div>
+                    <div><%= contact_person_number %></div>
+                  </div>
+                  <div style="font-size: 7px; font-weight: bold">
+                    <% if (type_of_employee === 'PROJECT BASED' || type_of_employee
+                    === 'SUB-CONTRACTOR') { %> Valid Until: <%= date_expire %> <% }
+                    %>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 7px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-top: 3px;
+                  "
+                >
+                  This is to certify that the person whose picture and signature
+                  appears herein is an employee of:
+                </div>
+                <div
+                  style="display: flex; justify-content: center; margin-top: 5px"
+                >
+                <span style="font-size: 10px; text-align: center; font-weight: bold;">Central Visayas Waste Management Complex Corporation</span>
+                </div>
+                <div style="font-size: 7px; font-weight: bold; text-align: center">
+                  Brgy. Sam-ang, Toledo CIty, Cebu
+                </div>
+                <!-- <div style="font-size: 7px; font-weight: bold; text-align: center">
+                  Telephone Number:
+                </div>
+                <div style="font-size: 7px; font-weight: bold; text-align: center">
+                  (044) 813-9037
+                </div> -->
+                <div
+                  style="text-align: center; position: relative; margin-top: 20px"
+                >
+                  <div
+                    style="
+                      display: grid;
+                      grid-template-columns: 50% 50%;
+                      align-items: end;
+                    "
+                  >
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: bold;
+                        height: 30px;
+                        display: flex;
+                        align-items: end;
+                        justify-content: center;
+                        text-align: center;
+                      "
+                    >
+                      <p class="m-0 shrink-text" style="text-align: center">
+                        <u><%= id_name2 %></u>
+                      </p>
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        height: 50px;
+                        width: 100px;
+                        top: -15px;
+                      "
+                    >
+                      <% if (signature) { %>
+                      <img
+                        src="data:image/jpeg;base64,<%= signature.toString('base64') %>"
+                        alt="Uploaded Picture"
+                        style="max-height: 100%; max-width: 100%"
+                      />
+                      <% } %>
+                    </div>
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: bold;
+                        height: 30px;
+                        display: flex;
+                        align-items: end;
+                        justify-content: center;
+                        text-align: center;
+                      "
+                    >
+                      <p class="m-0"><u>DAISY M. CARDINEZ</u></p>
+                    </div>
+                    <img
+                      src="/img/Cardinez.png"
+                      alt=""
+                      style="position: absolute; width: 50%; top: -15px; right: 0"
+                    />
+                  </div>
+                  <div style="display: grid; grid-template-columns: 50% 50%">
+                    <div style="font-size: 8px; font-weight: bold">
+                      <i>Employee Signature</i>
+                    </div>
+                    <div style="font-size: 8px; font-weight: bold">
+                      <i>Administrative Head</i>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    font-size: 7px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin-top: 2px;
+                  "
+                >
+                  THIS CARD IS NON TRANSFERABLE AND MAY BE REVOKED BY CVWMCC ANYTIME
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            id="downloadCompanyIdCard"
+            class="form-control bg-dark text-warning"
+            style="display: none; max-width: fit-content !important; margin-top: 20px;"
+          >
+            Download Company ID Card
+          </button>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; flex-direction: column;">
+            <div id="idContainers2" style="display: none; width: 100%">
+              <div id="idCardContainer3"
+              style="
+                position: relative;
+                height: 8.6cm;
+                width: 5.4cm;
+                background-color: white;
+              "
+            >
+              <div
+                class="header"
+                style="
+                  height: 1.75cm;
+                  background-color: gray;
+                  padding: 0.5cm 0.25cm 0.5cm 0.25cm;
+                "
+              >
+                <img src="/img/CVWMCC.png" alt="" style="height: 1cm; width: 1cm" />
+                <img
+                  src="/img/CVWMCC_name.png"
+                  alt=""
+                  style="height: 1cm; width: 3.75cm"
+                />
+              </div>
+              <div>
+                <p
+                  class="m-1 shrink-text"
+                  style="font-size: 10px; font-weight: bold"
+                >
+                  ID No:<br /><%= employee_id %>
+                </p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  height: 3cm;
+                  width: 3cm;
+                  border: 5px solid gray;
+                  left: 1.2cm;
+                  top: 2cm;
+                  z-index: 2;
+                  background-color: white;
+                "
+              >
+                <div style="width: 100%; height: 100%">
+                  <% if (profile_picture) { %>
+                  <img
+                    src="data:image/jpeg;base64,<%= profile_picture.toString('base64') %>"
+                    alt="Uploaded Picture"
+                    style="height: 100%; width: 100%"
+                  />
+                  <% } %>
+                </div>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 5cm;
+                  width: 100%;
+                  height: 0.75cm;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: bold;
+                "
+              >
+                <p class="m-1 shrink-text"><%= id_name %></p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 5.75cm;
+                  width: 100%;
+                  max-width: 100%;
+                  height: 0.75cm;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  font-weight: bold;
+                  background-color: gray;
+                  color: white;
+                "
+              >
+                <p class="m-1 shrink-text" style="font-style: italic">
+                  <%= designation %>
+                </p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 6.7cm;
+                  height: 1.8cm;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+              <p style="font-size: 12px; font-weight: bold; margin: 0;">SAFETY VIOLATIONS</p>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 7.2cm;
+                  height: auto;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  gap: 10px;
+                "
+              >
+                <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: green;"></div>
+                <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: yellow;"></div>
+                <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: red;"></div>
+              </div>
+              <div
+                style="
+                  position: absolute;
+                  top: 7.9cm;
+                  height: auto;
+                  width: 100%;
+                  display: flex;
+                  justify-content: center;
+                  gap: 10px;
+                "
+              >
+              <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: green;"></div>
+              <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: yellow;"></div>
+              <div style="height: 20px; width: 20px; border: 1px solid black; border-radius: 20px; background-color: red;"></div>
+            </div>
+              </div>
+              <div id="idCardContainer4" class="d-flex justify-content-center">
+                <div
+                  style="
+                    position: relative;
+                    padding: 0.2cm;
+                    height: 8.6cm;
+                    width: 5.4cm;
+                    background-color: white;
+                  "
+                >
+                  <p style="font-size: 10px; font-weight: bold;; text-align: center;">
+                    COMPANY RULES & REGULATIONS
+                  </p>
+                  <p style="font-size: 8px; font-weight: bold; text-align: center;">
+                    Please wear badge conspicuously while inside<br><b>Central Visayas Waste Management Complex Corporation</b> premises
+                  </p>
+                  <p style="font-size: 8px; font-weight: bold; text-align: center;">
+                    If Lost/Found report immediately to FEFC office, 
+                    888 Irabagon St. Brgy. Anyatam, San Ildefonso, Bulacan, 
+                    or call (02) 579-3381 / (02) 057-2198
+                  </p>
+                  <div
+                    style="
+                      font-size: 9px;
+                      font-weight: bold;
+                      height: 60px;
+                      display: flex;
+                      align-items: end;
+                      justify-content: center;
+                      text-align: center;
+                    "
+                  >
+                    <p class="m-0"><u>Mr. Cris Duran<br></u>Plant Manager</p>
+                  </div>
+                  <img
+                    src="/img/DURAN_CRIS.png"
+                    alt=""
+                    style="position: absolute; width: 50%; top: 120px; right: 50px"
+                  />
+                  <div
+                    style="
+                      font-size: 9px;
+                      font-weight: bold;
+                      height: 80px;
+                      display: flex;
+                      align-items: end;
+                      justify-content: center;
+                      text-align: center;
+                    "
+                  >
+                    <p><u>Ms.Arlene Delos Santos<br></u>Safety Officer 2</p>
+                  </div>
+                  <img
+                    src="/img/DELOS_SANTOS_ARLENE.png"
+                    alt=""
+                    style="position: absolute; width: 50%; top: 200px; right: 50px"
+                  />
+                  <p style="font-size: 10px; font-weight: bold;; text-align: center;">
+                    IN CASE OF EMERGENCY
+                  </p>
+                  <div
+                    style="
+                      font-size: 9px;
+                      font-weight: bold;
+                      height: 15px;
+                      display: flex;
+                      align-items: end;
+                      justify-content: center;
+                      text-align: center;
+                    "
+                  >
+                    <p class="m-0"><u><%= contact_person %> / <%= contact_person_number %><br></u>Contact Person/Mobile Number</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              id="downloadSafetyIdCard"
+              class="form-control bg-dark text-warning"
+              style="display: none; max-width: fit-content !important; margin-top: 20px;"
+            >
+              Download Safety ID Card
+            </button>
+          </div>
+        </div>
+      </div>
+      <% } else { %>
+      <div id="idContainers" style="display: none; width: 100%">
+        <div id="idCardContainer"
+          style="
+            position: relative;
+            height: 8.6cm;
+            width: 5.4cm;
+            background-color: white;
+          "
+        >
+          <div
+            class="header"
+            style="
+              height: 1.75cm;
+              background-color: gray;
+              padding: 0.5cm 0.25cm 0.5cm 0.25cm;
+            "
+          >
+            <img src="/img/CVWMCC.png" alt="" style="height: 1cm; width: 1cm" />
+            <img
+              src="/img/CVWMCC_name.png"
+              alt=""
+              style="height: 1cm; width: 3.75cm"
+            />
+          </div>
+          <div
+            style="
+              position: absolute;
+              height: 3cm;
+              width: 3cm;
+              border: 5px solid gray;
+              left: 1.2cm;
+              top: 2cm;
+              z-index: 2;
+              background-color: white;
+            "
+          >
+            <div style="width: 100%; height: 100%">
+              <% if (profile_picture) { %>
+              <img
+                src="data:image/jpeg;base64,<%= profile_picture.toString('base64') %>"
+                alt="Uploaded Picture"
+                style="height: 100%; width: 100%"
+              />
+              <% } %>
+            </div>
+          </div>
+          <div
+            style="
+              position: absolute;
+              top: 5cm;
+              width: 100%;
+              height: 0.75cm;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-weight: bold;
+            "
+          >
+            <p class="m-1 shrink-text"><%= id_name %></p>
+          </div>
+          <div
+            style="
+              position: absolute;
+              top: 5.75cm;
+              width: 100%;
+              max-width: 100%;
+              height: 0.75cm;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-weight: bold;
+              background-color: lightgreen;
+              color: white;
+            "
+          >
+            <p class="m-1 shrink-text" style="font-style: italic">
+              <%= designation %>
+            </p>
+          </div>
+          <div
+            style="
+              position: absolute;
+              top: 6.7cm;
+              left: 1.8cm;
+              width: 1.8cm;
+              height: 1.8cm;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid black;
+            "
+          >
+            <img
+              src="<%= qrCodeDataURL %>"
+              alt="QR Code"
+              style="width: 100%; height: 100%"
+            />
+          </div>
+        </div>
+        <div id="idCardContainer2" class="d-flex justify-content-center">
+          <div
+            style="
+              position: relative;
+              padding: 0.2cm;
+              height: 8.6cm;
+              width: 5.4cm;
+              background-color: gray;
+            "
+          >
+            <div
+              style="
+                height: 4cm;
+                width: 100%;
+                padding: 0.1cm;
+                background-color: white;
+              "
+            >
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 50% 50%;
+                  font-size: 8px;
+                  font-weight: bold;
+                  gap: 0.1cm;
+                "
+              >
+                <div style="display: flex; flex-direction: column">
+                  <div>SSS: <%= sss_no %></div>
+                  <div>HDMF: <%= pag_ibig_no %></div>
+                </div>
+                <div style="display: flex; flex-direction: column">
+                  <div>TIN: <%= tin_no %></div>
+                  <div>PHIC: <%= philhealth_no %></div>
+                </div>
+              </div>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 30% 70%;
+                  font-size: 8px;
+                  font-weight: bold;
+                  gap: 0.1cm;
+                "
+              >
+                <div>Birthdate:</div>
+                <div><%= birthday %></div>
+              </div>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 30% 70%;
+                  font-size: 8px;
+                  font-weight: bold;
+                  gap: 0.1cm;
+                "
+              >
+                <div>Contact No:</div>
+                <div><%= contact_number %></div>
+              </div>
+              <div
+                style="text-align: center; font-size: 8px; font-weight: bold"
+              >
+                <div>
+                  <i>Home Address:</i>
+                </div>
+                <div style="font-size: 7px"><%= address %></div>
+                <div style="font-size: 7px"><%= address2 %></div>
+                <div>
+                  <i>In case of Emergency please notify:</i>
+                </div>
+                <div><%= contact_person %></div>
+                <div style="font-size: 7px"><%= contact_person_address %></div>
+                <div style="font-size: 7px"><%= contact_person_address2 %></div>
+                <div><%= contact_person_number %></div>
+              </div>
+              <div style="font-size: 7px; font-weight: bold">
+                <% if (type_of_employee === 'PROJECT BASED' || type_of_employee
+                === 'SUB-CONTRACTOR' || type_of_employee === 'TEMPORARY') { %>
+                Valid Until: <%= date_expire %> <% } %>
+              </div>
+            </div>
+            <div
+              style="
+                font-size: 7px;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 3px;
+              "
+            >
+              This is to certify that the person whose picture and signature
+              appears herein is an employee of:
+            </div>
+            <div
+              style="display: flex; justify-content: center; margin-top: 5px"
+            >
+              <img
+                src="/img/CVWMCC_name3.png"
+                alt=""
+                style="height: 0.4cm; width: 5cm"
+              />
+            </div>
+            <div style="font-size: 7px; font-weight: bold; text-align: center">
+              No. 888, Purok 5, Irabagon Street, Brgy. Anyatam
+            </div>
+            <div style="font-size: 7px; font-weight: bold; text-align: center">
+              San Ildefonso, Bulacan, 3010, Philippines
+            </div>
+            <div style="font-size: 7px; font-weight: bold; text-align: center">
+              Telephone Number:
+            </div>
+            <div style="font-size: 7px; font-weight: bold; text-align: center">
+              (044) 813-9037
+            </div>
+            <div
+              style="text-align: center; position: relative; margin-top: 10px"
+            >
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 50% 50%;
+                  align-items: end;
+                "
+              >
+                <div
+                  style="
+                    font-size: 9px;
+                    font-weight: bold;
+                    height: 30px;
+                    display: flex;
+                    align-items: end;
+                    justify-content: center;
+                    text-align: center;
+                  "
+                >
+                  <p class="m-0 shrink-text" style="text-align: center">
+                    <u><%= id_name2 %></u>
+                  </p>
+                </div>
+                <div
+                  style="
+                    position: absolute;
+                    height: 50px;
+                    width: 100px;
+                    top: -15px;
+                  "
+                >
+                  <% if (signature) { %>
+                  <img
+                    src="data:image/jpeg;base64,<%= signature.toString('base64') %>"
+                    alt="Uploaded Picture"
+                    style="max-height: 100%; max-width: 100%"
+                  />
+                  <% } %>
+                </div>
+                <div
+                  style="
+                    font-size: 9px;
+                    font-weight: bold;
+                    height: 30px;
+                    display: flex;
+                    align-items: end;
+                    justify-content: center;
+                    text-align: center;
+                  "
+                >
+                  <p class="m-0"><u>DAISY M. CARDINEZ</u></p>
+                </div>
+                <img
+                  src="/img/Cardinez.png"
+                  alt=""
+                  style="position: absolute; width: 50%; top: -15px; right: 0"
+                />
+              </div>
+              <div style="display: grid; grid-template-columns: 50% 50%">
+                <div style="font-size: 8px; font-weight: bold">
+                  <i>Employee Signature</i>
+                </div>
+                <div style="font-size: 8px; font-weight: bold">
+                  <i>Administrative Head</i>
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                font-size: 7px;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 2px;
+              "
+            >
+              THIS CARD IS NON TRANSFERABLE AND MAY BE REVOKED BY FEFC ANYTIME
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+      <br />
+      <input id="id_input" type="hidden" value="<%= employee_id %>" />
+      <input id="filename" type="hidden" value="<%= id_name %>" />
+      <div style="display: flex; gap: 20px">
+        <button
+          id="generateIdCard"
+          class="form-control bg-dark text-warning"
+          style="max-width: fit-content !important"
+        >
+          Generate ID Card
+        </button>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.3.2/dist/html2canvas.min.js"></script>
+    <script>
+      document
+        .getElementById("generateIdCard")
+        .addEventListener("click", function () {
+          const idContainers = document.getElementById("idContainers");
+          const idContainers2 = document.getElementById("idContainers2");
+          document.getElementById("generateIdCard").style.display = "none";
+          document.getElementById("downloadCompanyIdCard").style.display = "block";
+          document.getElementById("downloadSafetyIdCard").style.display = "block";
+
+          // Make both ID card containers visible
+          idContainers.style.display = "flex";
+          idContainers2.style.display = "flex";
+          shrinkTextToFit();
+        });
+      document
+        .getElementById("downloadCompanyIdCard")
+        .addEventListener("click", function () {
+          const idCardContainer = document.getElementById("idCardContainer");
+          const idCardContainer2 = document.getElementById("idCardContainer2");
+          const id_input = document.getElementById("id_input");
+          const filename = document.getElementById("filename");
+
+          // Use html2canvas to generate an image from the first container
+          html2canvas(idCardContainer, { scale: 10 }) // Increase the scale to improve resolution
+            .then(function (canvas) {
+              // Convert the canvas to a data URL
+              const imageDataURL = canvas.toDataURL("image/png");
+
+              // Create a download link for the first image
+              const downloadLink = document.createElement("a");
+              downloadLink.href = imageDataURL;
+              downloadLink.download = `${id_input.value} - (FRONT) - ${filename.value} COMPANY ID.png`;
+              downloadLink.style.display = "none";
+              document.body.appendChild(downloadLink);
+
+              // Simulate a click on the download link for the first image
+              downloadLink.click();
+
+              // Clean up the download link
+              document.body.removeChild(downloadLink);
+            })
+            .catch(function (error) {
+              console.error("Error generating ID card image:", error);
+              // Handle the error
+            });
+
+          // Use html2canvas to generate an image from the second container
+          html2canvas(idCardContainer2, { scale: 10 }) // Increase the scale to improve resolution
+            .then(function (canvas) {
+              // Convert the canvas to a data URL
+              const imageDataURL2 = canvas.toDataURL("image/png");
+
+              // Create a download link for the second image
+              const downloadLink2 = document.createElement("a");
+              downloadLink2.href = imageDataURL2;
+              downloadLink2.download = `${id_input.value} - (BACK) - ${filename.value} COMPANY ID.png`;
+              downloadLink2.style.display = "none";
+              document.body.appendChild(downloadLink2);
+
+              // Simulate a click on the download link for the second image
+              downloadLink2.click();
+
+              // Clean up the download link for the second image
+              document.body.removeChild(downloadLink2);
+            })
+            .catch(function (error) {
+              console.error("Error generating ID card image 2:", error);
+              // Handle the error
+            });
+
+        });
+        
+        
+      document
+        .getElementById("downloadSafetyIdCard")
+        .addEventListener("click", function () {
+          const idCardContainer3 = document.getElementById("idCardContainer3");
+          const idCardContainer4 = document.getElementById("idCardContainer4");
+          const id_input = document.getElementById("id_input");
+          const filename = document.getElementById("filename");
+
+          // Use html2canvas to generate an image from the first container
+          html2canvas(idCardContainer3, { scale: 10 }) // Increase the scale to improve resolution
+            .then(function (canvas) {
+              // Convert the canvas to a data URL
+              const imageDataURL = canvas.toDataURL("image/png");
+
+              // Create a download link for the first image
+              const downloadLink = document.createElement("a");
+              downloadLink.href = imageDataURL;
+              downloadLink.download = `${id_input.value} - (FRONT) - ${filename.value} SAFETY ID.png`;
+              downloadLink.style.display = "none";
+              document.body.appendChild(downloadLink);
+
+              // Simulate a click on the download link for the first image
+              downloadLink.click();
+
+              // Clean up the download link
+              document.body.removeChild(downloadLink);
+            })
+            .catch(function (error) {
+              console.error("Error generating ID card image:", error);
+              // Handle the error
+            });
+
+          // Use html2canvas to generate an image from the second container
+          html2canvas(idCardContainer4, { scale: 10 }) // Increase the scale to improve resolution
+            .then(function (canvas) {
+              // Convert the canvas to a data URL
+              const imageDataURL2 = canvas.toDataURL("image/png");
+
+              // Create a download link for the second image
+              const downloadLink2 = document.createElement("a");
+              downloadLink2.href = imageDataURL2;
+              downloadLink2.download = `${id_input.value} - (BACK) - ${filename.value} SAFETY ID.png`;
+              downloadLink2.style.display = "none";
+              document.body.appendChild(downloadLink2);
+
+              // Simulate a click on the download link for the second image
+              downloadLink2.click();
+
+              // Clean up the download link for the second image
+              document.body.removeChild(downloadLink2);
+            })
+            .catch(function (error) {
+              console.error("Error generating ID card image 2:", error);
+              // Handle the error
+            });
+
+        });
+        
+
+      function shrinkTextToFit() {
+        const textElements = document.querySelectorAll(".shrink-text");
+
+        textElements.forEach((textElement) => {
+          const containerWidth = textElement.clientWidth;
+          const contentWidth = textElement.scrollWidth;
+
+          if (contentWidth > containerWidth) {
+            const fontSize = parseFloat(
+              window.getComputedStyle(textElement).fontSize
+            );
+            const newFontSize = (containerWidth / contentWidth) * fontSize;
+            textElement.style.fontSize = `${newFontSize}px`;
+          }
+        });
+      }
+
+      // Call the function when the page loads and whenever the window is resized
+      window.addEventListener("load", shrinkTextToFit);
+      window.addEventListener("resize", shrinkTextToFit);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

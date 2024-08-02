@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.signup-container,
+.login-container {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.signup-container .form-group,
+.login-container .form-group {
+    margin-bottom: 20px;
+}
+
+.signup-container h2,
+.login-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}

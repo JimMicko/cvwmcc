@@ -1,0 +1,432 @@
+<!-- employeeLogin2.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <!-- <link rel="shortcut icon" href="/public/img/CVWMCC.png" type="image/x-icon"> -->
+    <!-- <link rel="icon" href="/public/img/favicon.ico" type="image/x-icon"> -->
+    <!-- <link rel="icon" href="/public/img/CVWMCC.png" type="image/png"> -->
+    <link rel="icon" href="/public/img/favicon-32x32.png" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/eras-md-bt" rel="stylesheet" />
+    <style>
+      .table {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        background: #c3c3c3;
+        font-weight: bolder;
+        border-radius: 10px;
+        box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.08);
+        border: 3px solid #198754 !important;
+        margin: 0 50px;
+        width: calc(100% - 100px);
+      }
+
+      .table thead {
+        background-color: #198754 !important;
+      }
+
+      .table thead th {
+        color: #f5f5f7 !important;
+      }
+
+      .table td {
+        color: #1d1d1f;
+      }
+
+      .text_end {
+        background-color: #dc3545 !important;
+        font-size: 16px !important;
+      }
+
+      .list {
+        width: 100%;
+        font-size: 25px;
+        color: #f5f5f7;
+      }
+
+      .table table {
+        width: 100%;
+      }
+
+      .table table tr {
+        border-bottom: 1px solid #f5f5f7;
+      }
+
+      .table table td,
+      .table table th {
+        padding: 0 10px;
+        text-align: center;
+        font-size: 24px;
+      }
+
+      /* Width of the scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: #f5f5f7; /* Color of the scrollbar handle on hover */
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      /* Handle (the draggable part) */
+      ::-webkit-scrollbar-thumb {
+        background: #198754; /* Color of the scrollbar handle */
+        border-bottom-right-radius: 6px; /* Rounded corners for the handle */
+        border-top-right-radius: 5px; /* Rounded corners for the handle */
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #dc3545; /* Color of the scrollbar handle on hover */
+      }
+    </style>
+  </head>
+  <body style="background-color: #c3c3c3">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        height: 60px;
+        background-color: black;
+        padding: 0 20px;
+        position: relative;
+      "
+    >
+      <div style="display: flex; align-items: center; height: 100%">
+        <img
+          src="/img/CVWMCC.png"
+          alt=""
+          style="height: 50px; width: 50px; margin-right: 10px"
+        />
+        <h2
+          class="m-0"
+          style="
+            font-family: 'Eras Md BT', sans-serif;
+            font-weight: bold;
+            color: #ffbf00;
+          "
+        >
+          Central Visayas Waste Management Complex Corporation
+        </h2>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 500px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          font-size: 20px;
+        "
+      >
+        <div id="safety_man_hour"></div>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 20px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        "
+      >
+        <div class="header_date">
+          <div id="exactDate"></div>
+        </div>
+        <div class="header_time" style="font-size: 40px">
+          <div id="exactTime"></div>
+        </div>
+      </div>
+    </div>
+    <form id="myForm" method="post" style="position: absolute; top: -50px">
+      <input
+        type="text"
+        id="urlInput"
+        name="urlInput"
+        placeholder="Enter URL"
+        autocomplete="off"
+        autofocus
+      />
+    </form>
+    <div
+      style="
+        width: calc(100% - 100px);
+        margin: 50px 50px 0 50px;
+        display: flex;
+        justify-content: space-between;
+      "
+    >
+      <h1 style="font-weight: bold">EMPLOYEE ON DUTY</h1>
+      <h1 style="font-weight: bold"><%= employeesWithoutTimeout.length %></h1>
+    </div>
+    <div
+      id="myTable"
+      class="table"
+      style="max-height: 80vh; align-items: start; overflow-y: scroll"
+    >
+      <div class="list">
+        <table>
+          <thead style="position: sticky; top: 0; background-color: black">
+            <th>#</th>
+            <th>EMPLOYEE ID</th>
+            <th>EMPLOYEE<br />NAME</th>
+            <th>EMPLOYEE<br />DESIGNATION</th>
+            <th>DATE</th>
+            <th>TIME IN</th>
+          </thead>
+          <tbody id="client_list">
+            <% for (let i = 0; i < employeesWithoutTimeout.length; i++) { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td>
+                <%= employeesWithoutTimeout[i].IdInformation.employee_id %>
+              </td>
+              <td>
+                <%= employeesWithoutTimeout[i].IdInformation.first_name %> <%=
+                employeesWithoutTimeout[i].IdInformation.middle_name %> <%=
+                employeesWithoutTimeout[i].IdInformation.last_name %>
+              </td>
+              <td>
+                <%= employeesWithoutTimeout[i].IdInformation.designation %>
+              </td>
+              <td>
+                <% const date = new Date(employeesWithoutTimeout[i].date); %>
+                <%= date.toLocaleDateString('en-US', { year: 'numeric', month:
+                'long', day: 'numeric' }) %>
+              </td>
+              <td>
+                <% const timeIn = employeesWithoutTimeout[i].time; %> <% const
+                formattedTimeIn = new
+                Date(`2023-09-23T${timeIn}`).toLocaleTimeString('en-US', { hour:
+                'numeric', minute: 'numeric', second: 'numeric', hour12: true
+                }); %> <%= formattedTimeIn %>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <div class="text-center text_end">>>>>>>>>> END OF LIST <<<<<<<<<<</div>
+      </div>
+    </div>
+    <br />
+
+    <script>
+      const form = document.getElementById("myForm");
+      const urlInput = document.getElementById("urlInput");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the URL entered by the user
+        const enteredURL = urlInput.value;
+        const url = new URL(enteredURL);
+        const path = url.pathname;
+        // Split the pathname to extract parts
+        const parts = path.split("/");
+        // Extract the desired parts
+        const action = parts[2]; // submitAttendance
+        const id = parts[3]; // 23108
+        const newPath = `${parts[1]}2/${parts[2]}`; // 23108
+
+        // Check if the entered URL is not empty
+        if (path.trim() !== "") {
+          // Set the form action to the entered URL
+          form.action = newPath;
+
+          // Submit the form with the updated action
+          form.submit();
+        }
+      });
+
+      function generateExactTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var ampm = hours >= 12 ? "PM" : "AM";
+
+        // Convert hours to 12-hour format
+        hours = hours % 12;
+        hours = hours ? hours : 12; // If hours is 0, set it to 12
+
+        // Format the time to ensure leading zeros for single-digit values
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        var exactTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        return exactTime;
+      }
+
+      // Update the content of the HTML element with the exact time every second
+      function updateExactTime() {
+        var exactTimeElement = document.getElementById("exactTime");
+        exactTimeElement.textContent = generateExactTime();
+      }
+
+      // Call the updateExactTime function every second
+      setInterval(updateExactTime, 1000);
+
+      function generateFormattedDate() {
+        var now = new Date();
+
+        // Define the month names
+        var monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        // Get the date components
+        var month = monthNames[now.getMonth()];
+        var day = now.getDate();
+        var year = now.getFullYear();
+
+        // Define the day names
+        var dayNames = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+
+        // Get the day of the week
+        var dayOfWeek = dayNames[now.getDay()];
+
+        // Format the date
+        var formattedDate =
+          month.toUpperCase() +
+          " " +
+          day +
+          ", " +
+          year +
+          "<br>" +
+          dayOfWeek.toUpperCase();
+
+        return formattedDate;
+      }
+
+      function updateDate() {
+        var dateElement = document.getElementById("exactDate");
+        dateElement.innerHTML = generateFormattedDate();
+      }
+
+      // Update the date every second (1000 milliseconds)
+      setInterval(updateDate, 1000);
+
+      // Function to update the safety man-hours data on the page
+      function updateSafetyManHours(data) {
+        const container = document.getElementById("safety_man_hour");
+        container.innerHTML = `Updated Safety Man-Hours:  ${data}`;
+      }
+
+      // Function to fetch safety man-hours data from the server
+      function fetchSafetyManHours() {
+        fetch("/safetymanhours")
+          .then((response) => response.json())
+          .then((data) => {
+            updateSafetyManHours(formatDuration(data));
+          })
+          .catch((error) => {
+            console.error("Error fetching safety man-hours:", error);
+          });
+      }
+
+      function formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600); // Convert seconds to hours
+        const remainingMinutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+
+        const parts = [];
+
+        if (hours > 0) {
+          parts.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+        }
+
+        if (remainingMinutes > 0) {
+          parts.push(
+            `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
+          );
+        }
+
+        if (remainingSeconds > 0) {
+          parts.push(
+            `${remainingSeconds} second${remainingSeconds > 1 ? "s" : ""}`
+          );
+        }
+
+        if (parts.length === 0) {
+          return "0 seconds";
+        }
+
+        return parts.join(", ");
+      }
+
+      // Fetch safety man-hours data initially and then at 1-second intervals
+      fetchSafetyManHours();
+      setInterval(fetchSafetyManHours, 1000);
+
+      function searchEmployee() {
+        const employeeId = document.getElementById("employee_id").value;
+        window.location.href = `/searchEmployee?employee_id=${employeeId}`;
+      }
+      setTimeout(function () {
+        // window.location.href = "http://localhost:5000/employeeLogin";
+        window.location.href = "/employeeLogin2";
+        // window.location.href = "http://192.168.0.105:5000/employeeLogin";
+        // window.location.href = "http://127.0.0.1:5000/employeeLogin";
+        // window.location.href = "http://192.168.0.109:5000/employeeLogin";
+        // window.location.href = "http://192.168.1.232:5000/employeeLogin";
+        // window.location.href = "http://192.168.0.110:5000/employeeLogin";
+      }, 15000);
+
+      // Function to auto-scroll the content within the table when the page loads
+      // Function to auto-scroll the content within the table
+      function scrollTableContent() {
+        const tableBody = document.querySelector("#myTable");
+        let scrollPosition = 0;
+        const scrollSpeed = 3; // Adjust the speed of scrolling (increase for faster scrolling)
+        function scroll() {
+          scrollPosition += scrollSpeed;
+          tableBody.scrollTop = scrollPosition;
+          if (
+            scrollPosition <
+            tableBody.scrollHeight - tableBody.clientHeight
+          ) {
+            requestAnimationFrame(scroll);
+          }
+        }
+
+        // Start scrolling
+        scroll();
+      }
+
+      // Wait for the page to load before starting the delay and scroll
+      window.onload = function () {
+        setTimeout(scrollTableContent, 3000); // Start the delay when the page loads
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.3.2/dist/html2canvas.min.js"></script>
+  </body>
+</html>

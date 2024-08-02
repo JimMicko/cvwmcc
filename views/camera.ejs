@@ -1,0 +1,303 @@
+<!-- submitViolation.ejs -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Submit Violation</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/eras-md-bt" rel="stylesheet" />
+  </head>
+  <body style="background-color: #ffbf00">
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        height: 60px;
+        background-color: black;
+        padding: 0 20px;
+        position: relative;
+      "
+    >
+      <div style="display: flex; align-items: center; height: 100%">
+        <img
+          src="/img/CVWMCC.png"
+          alt=""
+          style="height: 50px; width: 50px; margin-right: 10px"
+        />
+        <h2
+          class="m-0"
+          style="
+            font-family: 'Eras Md BT', sans-serif;
+            font-weight: bold;
+            color: #ffbf00;
+          "
+        >
+          Central Visayas Waste Management Complex Corporation
+        </h2>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 500px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          font-size: 20px;
+        "
+      >
+        <div id="safety_man_hour"></div>
+      </div>
+      <div
+        class="header_date_time"
+        style="
+          position: absolute;
+          right: 20px;
+          color: white;
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        "
+      >
+        <div class="header_date">
+          <div id="exactDate"></div>
+        </div>
+        <div class="header_time" style="font-size: 40px">
+          <div id="exactTime"></div>
+        </div>
+      </div>
+    </div>
+    <h1>Camera Input Example</h1>
+    <form>
+      <label for="cameraInput">Take a photo:</label>
+      <input type="file" id="cameraInput" name="cameraInput" accept="image/*" />
+    </form>
+    <canvas id="canvas" style="display: none"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+      document
+        .getElementById("cameraInput")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.getElementById("canvas");
+              const context = canvas.getContext("2d");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+              const imageData = context.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
+              const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+              if (code) {
+                // Extract the ID from the URL
+                const url = new URL(code.data);
+                const id = url.pathname.split("/").pop();
+
+                // Redirect to the new URL
+                window.location.href = `/submitViolation/${id}`;
+              } else {
+                alert("No QR code found. Please try again.");
+              }
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+    </script>
+    <script>
+      const form = document.getElementById("myForm");
+      const urlInput = document.getElementById("urlInput");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the URL entered by the user
+        const enteredURL = urlInput.value;
+        const url = new URL(enteredURL);
+        const path = url.pathname;
+        // Split the pathname to extract parts
+        const parts = path.split("/");
+        // Extract the desired parts
+        const action = parts[2]; // submitAttendance
+        const id = parts[3]; // 23108
+        const newPath = `${parts[2]}`; // 23108
+
+        // Check if the entered URL is not empty
+        if (path.trim() !== "") {
+          // Set the form action to the entered URL
+          form.action = newPath;
+
+          // Submit the form with the updated action
+          form.submit();
+        }
+      });
+
+      function generateExactTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var ampm = hours >= 12 ? "PM" : "AM";
+
+        // Convert hours to 12-hour format
+        hours = hours % 12;
+        hours = hours ? hours : 12; // If hours is 0, set it to 12
+
+        // Format the time to ensure leading zeros for single-digit values
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        var exactTime = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        return exactTime;
+      }
+
+      // Update the content of the HTML element with the exact time every second
+      function updateExactTime() {
+        var exactTimeElement = document.getElementById("exactTime");
+        exactTimeElement.textContent = generateExactTime();
+      }
+
+      // Call the updateExactTime function every second
+      setInterval(updateExactTime, 1000);
+
+      function generateFormattedDate() {
+        var now = new Date();
+
+        // Define the month names
+        var monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        // Get the date components
+        var month = monthNames[now.getMonth()];
+        var day = now.getDate();
+        var year = now.getFullYear();
+
+        // Define the day names
+        var dayNames = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+
+        // Get the day of the week
+        var dayOfWeek = dayNames[now.getDay()];
+
+        // Format the date
+        var formattedDate =
+          month.toUpperCase() +
+          " " +
+          day +
+          ", " +
+          year +
+          "<br>" +
+          dayOfWeek.toUpperCase();
+
+        return formattedDate;
+      }
+
+      function updateDate() {
+        var dateElement = document.getElementById("exactDate");
+        dateElement.innerHTML = generateFormattedDate();
+      }
+
+      // Update the date every second (1000 milliseconds)
+      setInterval(updateDate, 1000);
+
+      // Function to update the safety man-hours data on the page
+      function updateSafetyManHours(data) {
+        const container = document.getElementById("safety_man_hour");
+        container.innerHTML = `Updated Safety Man-Hours:  ${data}`;
+      }
+
+      // Function to fetch safety man-hours data from the server
+      function fetchSafetyManHours() {
+        fetch("/safetymanhours")
+          .then((response) => response.json())
+          .then((data) => {
+            updateSafetyManHours(formatDuration(data));
+          })
+          .catch((error) => {
+            console.error("Error fetching safety man-hours:", error);
+          });
+      }
+
+      function formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600); // Convert seconds to hours
+        const remainingMinutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+
+        const parts = [];
+
+        if (hours > 0) {
+          parts.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+        }
+
+        if (remainingMinutes > 0) {
+          parts.push(
+            `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
+          );
+        }
+
+        if (remainingSeconds > 0) {
+          parts.push(
+            `${remainingSeconds} second${remainingSeconds > 1 ? "s" : ""}`
+          );
+        }
+
+        if (parts.length === 0) {
+          return "0 seconds";
+        }
+
+        return parts.join(", ");
+      }
+
+      // Fetch safety man-hours data initially and then at 1-second intervals
+      fetchSafetyManHours();
+      setInterval(fetchSafetyManHours, 1000);
+
+      setTimeout(function () {
+        // window.location.href = "http://localhost:5000/employeeLogin";
+        window.location.href = "/employeeLogin2";
+        // window.location.href = "http://127.0.0.1:5000/employeeLogin";
+        // window.location.href = "http://192.168.0.105:5000/employeeLogin";
+        // window.location.href = "http://192.168.0.109:5000/employeeLogin";
+        // window.location.href = "http://192.168.1.232:5000/employeeLogin";
+        // window.location.href = "http://192.168.0.110:5000/employeeLogin";
+      }, 5000);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.3.2/dist/html2canvas.min.js"></script>
+  </body>
+</html>
